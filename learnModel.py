@@ -6,7 +6,7 @@ from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Flatten, Dense
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import load_model
 
-# Создание и обучение модели
+
 def create_face_detection_model(input_shape):
     model = tf.keras.Sequential([
         Input(shape=input_shape),
@@ -64,19 +64,14 @@ model.fit(train_generator, epochs=25, validation_data=validation_generator)
 model.save('fdc.h5')
 
 
-# save model
-
-
-# download model
-#model.download('fdc.h5')
-# Использование модели для обработки новых фотографий
+# Использование модели
 loaded_model = load_model('fdc.h5')
 
 def detect_faces_in_image(image_path):
     image = cv2.imread(image_path)
-    image = cv2.resize(image, input_shape[:2])  # Масштабирование до размеров модели
+    image = cv2.resize(image, input_shape[:2])  
     image = image / 255.0  # Нормализация
-    image = np.expand_dims(image, axis=0)  # Добавление размерности батча
+    image = np.expand_dims(image, axis=0) 
     prediction = loaded_model.predict(image)
 
     if prediction[0][0] > 0.5:
@@ -84,7 +79,7 @@ def detect_faces_in_image(image_path):
     else:
         return "Лицо не обнаружено"
 
-# Пример использования
+# использованиe
 result = detect_faces_in_image('123.png')
 print(result)
 
